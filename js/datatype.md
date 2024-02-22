@@ -1,4 +1,4 @@
-#### 7 primitve types
+### 7 primitve types
 string, number, bigint, boolean, symbol, null, undefined
 - except null and undefined, some primitive has methods.
 - `num.toString(16)` get num hex value string, argument can be 2 to 36. eg. 3..toString(2) -> 11
@@ -10,7 +10,7 @@ string, number, bigint, boolean, symbol, null, undefined
 - `Math.max(a, b, c...) and Math.min(a, b, c...)`
 - `Math.pow(n, power)` pow(2,4) -> 16
 
-#### string method
+### string method
 - `str.at(-1)`
 - `str.toUpperCase()`
 - `str.indexOf(substr, startPos)`
@@ -26,7 +26,7 @@ string, number, bigint, boolean, symbol, null, undefined
 - `str.localeCompare(str2)`
 - `str.split(delim)` str.split('') return a letters array
 
-#### 1 object type
+### 1 object type
 object
 - `for (let key in arr)` 遍历key
 
@@ -54,3 +54,63 @@ object
 - `Array.isArray`
 - `arr.some(fn)/arr.every(fn)` like || and &&
 - `let value = arr.reduce(function(accumulator, item, index, array) {}, [initial])` calculate a single value(accumulator) based on the array. accumulator – is the result of the previous function call
+
+### Map type
+- new Map()
+- map.set(k, v) or map.set(k1,v1).set(k2,v2)...
+- map.get(k)
+- map.has(k)
+- map.delete(k)
+- map.clear()
+- map.size  
+#### Map iteration
+- map.keys()
+- map.values()
+- map.entries() return entry[k,v]
+- map.forEach((value, key, map) => {})
+#### Map & Object convertion
+- new Map(Object.entries(obj)): obj to map
+- Object.fromEntries(map.entries()): map to object
+
+### Set type
+- new Set([array])
+- set.add(v)
+- set.delete(v)
+- set.has(v)
+- set.clear()
+- set.size
+#### Set iteration
+- for (let value of set)
+- set.forEach((value, valueAgain, set) => {})
+- set.keys()
+- set.values()
+- set.entries() return entry[value,value]
+
+### WeakMap & WeakSet
+Help for GC. Can only add object as key. If obj set to null(become unreachable), then it would auto remove from map or set. The most notable limitation of WeakMap and WeakSet is the absence of iterations, and the inability to get all current content.
+#### use cases
+- additonal data
+- cache
+
+### Object.keys(obj), Object.values(obj), Object.entries()
+returns an array
+
+### Destructuring assignment from array or object or any iterable
+- `let [item1, ,item2] = arr`: arr[0] to item1, ignore arr[1], arr[2] to item2
+- `let [name1, name2, ...rest] = ["Julius", "Caesar", "Consul"]`: the rest is a array contain rest elements
+- `let [name = "Guest", surname = "Anonymous"] = ["Julius"]`: surname use default value
+- `let {height, width, title} = { title: "Menu", height: 200, width: 100 }`
+- `let {width: w, height: h, title} = options`: rename left-side
+- `let {width = 100, height = 200, title} = options`: set default value
+- `let {width: w = 100, height: h = 200, title} = options`
+- `function({incomingProperty: varName = defaultValue})`  
+https://javascript.info/destructuring-assignment
+
+### Date and time
+- `new Date("2017-01-26")`
+- `new Date(year, month, date, hours, minutes, seconds, ms)`: year 4 digits, month 0~11, date is day of month.
+- `Date.parse(str)`: YYYY-MM-DDTHH:mm:ss.sssZ
+
+### JSON methods
+- `JSON.stringify` to convert objects into JSON.
+- `JSON.parse` to convert JSON back into an object
