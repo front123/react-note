@@ -32,8 +32,12 @@
 
 ### Class checking instanceof 
 - to check whether an object belongs to a certain class
-- check on object prototype chain
+- check on obj prototype chain
 - `obj instanceof Class`: returns true if obj belongs to the Class or a class inheriting from it
+```js
+// check (rabbit.prototype or rabbit.prototype.prototype or ...) ==? Animal.prototype 
+(rabbit instanceof Animal)
+```
 - custom the rule check instanceof
 ```js
 // define this static method in class
@@ -47,3 +51,51 @@ if (xxx) return true;
 - `typeof`: primitives return string
 - `instanceof`: objects return true/false
 - `{}.toString`: primitives, built-in objects, objects with Symbol.toStringTag return string. `window[Symbol.toStringTag]` = Window
+
+### Mixins
+- js does not support multiple inheritance
+- a mixin is a class containing methods that can be used by other classes without a need to inherit from it.
+- `Object.assign(User.prototype, sayHiMixin)` like bind extra methods to class.
+- `event mixins`: Object.assign(Menu.prototype, eventMixin), then Menu instance can call on/off/trigger methods.
+```js
+let eventMixin = {
+  /**
+   * Subscribe to event, usage:
+   *  menu.on('select', function(item) { ... }
+  */
+  on(eventName, handler) {
+    if (!this._eventHandlers) this._eventHandlers = {};
+    if (!this._eventHandlers[eventName]) {
+      this._eventHandlers[eventName] = [];
+    }
+    this._eventHandlers[eventName].push(handler);
+  },
+
+  /**
+   * Cancel the subscription, usage:
+   *  menu.off('select', handler)
+   */
+  off(eventName, handler) {
+    let handlers = this._eventHandlers?.[eventName];
+    if (!handlers) return;
+    for (let i = 0; i < handlers.length; i++) {
+      if (handlers[i] === handler) {
+        handlers.splice(i--, 1);
+      }
+    }
+  },
+
+  /**
+   * Generate an event with the given name and data
+   *  this.trigger('select', data1, data2);
+   */
+  trigger(eventName, ...args) {
+    if (!this._eventHandlers?.[eventName]) {
+      return; // no handlers for that event name
+    }
+
+    // call the handlers
+    this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
+  }
+};
+```
